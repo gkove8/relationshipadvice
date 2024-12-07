@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Relationship Advice Chat</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
-    <!-- Same styles as before -->
     <style>
         body {
             margin: 0;
@@ -56,6 +54,7 @@
             border-radius: 15px;
             line-height: 1.4;
             word-wrap: break-word;
+            white-space: pre-wrap;
         }
 
         .user-message {
@@ -184,7 +183,7 @@
         function addMessage(content, isUser = false) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user-message' : 'assistant-message'}`;
-            messageDiv.innerHTML = isUser ? content : marked.parse(content);
+            messageDiv.textContent = content;
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
@@ -220,6 +219,10 @@
                     })
                 });
 
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
                 const data = await response.json();
                 
                 if (data.error) {
@@ -233,8 +236,8 @@
                     content: assistantMessage
                 });
             } catch (error) {
+                console.error('Error details:', error);
                 addMessage("I apologize, but I'm having trouble connecting right now. Please try again later.");
-                console.error('Error:', error);
             }
 
             setLoading(false);
