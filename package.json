@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "node-fetch": "^3.3.2"
+    "@anthropic-ai/sdk": "0.18.0"
   },
   "type": "module"
 }
